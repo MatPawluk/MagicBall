@@ -15,33 +15,42 @@ const answerArr = [
   "Bez wątpienia",
 ];
 
-const randomAnswer = () => {
+const checkInput = () => {
   const trimmedInput = input.value.trim();
 
-  if (trimmedInput === "" || trimmedInput.startsWith("?")) {
+  if (trimmedInput === "") {
     error.textContent = "Najpierw zadaj pytanie";
   } else if (!trimmedInput.endsWith("?")) {
     error.textContent = "Pytanie musi kończyć się '?'";
   } else {
     error.textContent = "";
-    ballBtn.classList.add("shake-animation");
-    const randomIndex = Math.floor(Math.random() * answerArr.length);
-    answer.textContent = answerArr[randomIndex];
-    input.value = "";
+    randomAnswer();
   }
 };
 
-ballBtn.addEventListener("click", (e) => {
+const clear = () => {
+  error.textContent = "";
+  input.value = "";
+};
+
+const randomAnswer = () => {
+  ballBtn.classList.add("shake-animation");
+  const randomIndex = Math.floor(Math.random() * answerArr.length);
+  answer.textContent = answerArr[randomIndex];
+};
+
+ballBtn.addEventListener("click", () => {
   answer.textContent = "";
-  randomAnswer();
+  checkInput();
 });
 
 ballBtn.addEventListener("animationend", () => {
   ballBtn.classList.remove("shake-animation");
+  clear();
 });
 
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    randomAnswer();
+    checkInput();
   }
 });
